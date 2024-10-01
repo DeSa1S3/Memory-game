@@ -2,13 +2,13 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
 import { initMiniApp, mockTelegramEnv, parseInitData } from '@telegram-apps/sdk';
-
 const initializeTelegramSDK = async () => {
   try {
     // Попытка инициализировать настоящее окружение Telegram
     console.log("Инициализация окружения Telegram");
     const [miniApp] = initMiniApp();
     await miniApp.ready();
+    miniApp.setHeaderColor('#fcb69f');
   } catch (error) {
     // В случае ошибки инициализируем фейковое окружение
     console.error('Ошибка при инициализации Telegram:', error);
@@ -55,32 +55,10 @@ const initializeTelegramSDK = async () => {
     console.log('Mock Telegram environment initialized');
   }
 };
-import { initMiniApp, initMainButton, mockTelegramEnv, parseInitData, initUtils } from '@telegram-apps/sdk';
-// Инициализация главной кнопки
-const [mainButton] = initMainButton();
-mainButton.setParams({
-  backgroundColor: '#aa1388',
-  text: 'Поделиться очками',
-  isVisible: true,
-  isEnabled: true,
-});
-mainButton.show();
 
-const utils = initUtils();
-
-// Установка обработчика нажатия на главную кнопку
-mainButton.on('click', () => {
-  try {
-    // Получение текущих очков из localStorage
-    const score = localStorage.getItem('memory-game-score') || 0;
-    utils.shareURL(`Посмотрите! У меня ${score} очков в игре!`);
-    console.log('Окно выбора чата открыто для отправки сообщения.');
-  } catch (error) {
-    console.error('Ошибка при открытии окна выбора чата:', error);
-  }
-});
 // Инициализация SDK
 initializeTelegramSDK();
+
 
 const container = document.getElementById('root');
 const root = createRoot(container);
